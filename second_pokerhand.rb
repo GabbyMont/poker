@@ -44,10 +44,15 @@ def royal_flush(hands)
 	hands
 end
 
-def straight_flush()
-	# suit_value = []
-	# face_value = []
-	
+def straight_flush(hands)
+	suit_value = []
+	face_value = []
+	hand  = hands['hand1']
+		hand.each do |card|
+			face_value << card[0]
+			suit_value << card[1]
+		end
+	hands
 end
 
 # Returns hand builder function
