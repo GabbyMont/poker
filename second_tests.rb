@@ -54,4 +54,16 @@ class Poker_Hand_test < Minitest::Test
 		face_value = []
 		assert_equal(Array,face_changer(face_value).class)
 	end
+
+	def test_for_A_14
+		hand = ["A", "9", "6", "8","7"]
+		changed_hand = ["14", "9", "6", "8","7"]
+		assert_equal(changed_hand,face_changer(hand))
+	end
+
+	def test_for_all_face_letters
+		hand = ["A", "J", "Q", "K","T"]
+		changed_hand = ["14", "11", "12", "13","10"]
+		assert_equal(changed_hand,face_changer(hand))
+	end
 end
