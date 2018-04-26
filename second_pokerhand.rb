@@ -52,32 +52,35 @@ def straight_flush(hands)
 			face_value << card[0]
 			suit_value << card[1]
 		end
-		# if suit_value.uniq.length == 1
-		# 	if face_value.sort.include?
+		face_value = face_changer(face_value)
+		face_value
+		if suit_value.uniq.length == 1
+			p face_value
 				
-		# 	end
-		# end
+			# end
+		end
 	hands
 end
 
 def face_changer(face_value)
+	# Loops face_value and updates the new array with the given number
 	face_value = face_value.map do |face|
 		if	face == "A"
-			"14"
+			14
 		elsif face == "K"
-			"13"
+			13
 		elsif face == "Q"
-			"12"
+			12
 		elsif face == "J"
-			"11"
+			11
 		elsif face == "T"
-			"10"
+			10
 		else
-			face
+			face.to_i
 		end
 	end
 	face_value
 end
 
-# Returns hand builder function
+# Returns the hand builder function
 hand_builder()
