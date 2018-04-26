@@ -27,9 +27,9 @@ def royal_flush(hands)
 	hand = hands['hand1']
 		# Loop to iterate over each individual card in the hands hash
 		hand.each do |card|
-			# Pushes index[0] of card into face_value array(The first index of each string => face: A...T)
+			# Pushes index[0] of card into face_value array(The first index of each string => face: A..T)
 			face_value << card[0]
-			# Pushes index[0] of card into face_value array(The second index of each string => suit: clubs...spades )
+			# Pushes index[0] of card into face_value array(The second index of each string => suit: clubs..spades )
 			suit_value << card[1]
 		end
 		# If statement checking length of the suit value after suits are seperated from royal flush => should all be "d" for diamonds(uniq removes all duplicates making the length 1)
@@ -52,7 +52,16 @@ def straight_flush(hands)
 			face_value << card[0]
 			suit_value << card[1]
 		end
+		# if suit_value.uniq.length == 1
+		# 	if face_value.sort.include?
+				
+		# 	end
+		# end
 	hands
+end
+
+def face_changer(face_value)
+	face_value
 end
 
 # Returns hand builder function
