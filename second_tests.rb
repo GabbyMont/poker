@@ -101,24 +101,46 @@ class Poker_Hand_test < Minitest::Test
 	end
 
 	def test_full_house
-		hand = {"hand1" => ["10s", "10d", "10c", "9h","9s"]}
+		hand = {"hand1" => ["Ts", "Td", "Tc", "9h","9s"]}
 		assert_equal(Hash,full_house(hand).class)
 	end
 
 	def test_full_house_winner
 		winner = {"hand1" => "Winner Winner"}
-		hand = {"hand1" => ["10s", "10d", "10c", "9h","9s"]}
+		hand = {"hand1" => ["Ts", "Td", "Tc", "9h","9s"]}
 		assert_equal(winner,full_house(hand))
 	end
 
 	def test_flush
-		hand = {"hand1" => ["1s", "5s", "10s","9s","7s"]}
+		hand = {"hand1" => ["1s", "5s", "Ts","9s","7s"]}
 		assert_equal(Hash,flush(hand).class)
 	end
 
 	def test_flush_winner
 		winner = {"hand1" => "Winner Winner"}
-		hand = {"hand1" => ["1s", "5s", "10s", "9s","7s"]}
+		hand = {"hand1" => ["1s", "5s", "Ts", "9s","7s"]}
 		assert_equal(winner,flush(hand))
+	end
+
+	def test_letter_faces
+		hand = {"hand1" => ["Qs", "11s", "Ts","12s","As"]}
+		assert_equal(Hash,flush(hand).class)
+	end
+
+	def test_flush_face_winner
+		winner = {"hand1" => "Winner Winner"}
+		hand = {"hand1" => ["Qs", "Ks", "Ts","Js","As"]}
+		assert_equal(winner,flush(hand))
+	end
+
+	def test_straight
+		hand = {"hand1" => ["Td", "9s", "6c", "8s","7h"]}
+		assert_equal(Hash,straight(hand).class)
+	end
+
+	def test_striaght_flush_winner
+		winner = {"hand1" => "Straight 10"}
+		hand = {"hand1" => ["Td", "9s", "6c", "8s","7h"]}
+		assert_equal(winner,straight(hand))
 	end
 end

@@ -127,8 +127,25 @@ def flush(hands)
 			face_value << card[0]
 			suit_value << card[1]
 		end
-		if suit_value.uniq.length == 2
+		if suit_value.uniq.length == 1
 			hands['hand1'] = "Winner Winner"
+		end
+	hands
+end
+
+def straight(hands)
+	suit_value = []
+	face_value = []
+	hand  = hands['hand1']
+		hand.each do |card|
+			face_value << card[0]
+			suit_value << card[1]
+		end
+		face_value = face_changer(face_value)
+		face_value.sort!
+		newarray = [*face_value[0]..face_value[0]+4]
+		if face_value == newarray
+			hands["hand1"] = "Straight #{face_value.last}"
 		end
 	hands
 end
