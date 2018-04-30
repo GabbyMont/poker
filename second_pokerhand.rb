@@ -119,6 +119,20 @@ def full_house(hands)
 	hands
 end
 
+def flush(hands)
+	suit_value = []
+	face_value = []
+	hand = hands['hand1']
+		hand.each do |card|
+			face_value << card[0]
+			suit_value << card[1]
+		end
+		if suit_value.uniq.length == 2
+			hands['hand1'] = "Winner Winner"
+		end
+	hands
+end
+
 def face_changer(face_value)
 	# Loops face_value and updates the new array with the given number
 	face_value = face_value.map do |face|
