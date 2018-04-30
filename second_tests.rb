@@ -143,4 +143,15 @@ class Poker_Hand_test < Minitest::Test
 		hand = {"hand1" => ["Td", "9s", "6c", "8s","7h"]}
 		assert_equal(winner,straight(hand))
 	end
+
+	def test_two_pair_hash
+		hand = {"hand1" => ["4s", "4d", "2c", "2h","7s"]}
+		assert_equal(Hash,two_pair(hand).class)
+	end
+
+	def test_for_two_pair
+		winner = {"hand1" => "Winner Winner"}
+		hand = {"hand1" => ["4s", "4d", "2c", "2h","7s"]}
+		assert_equal(winner,two_pair(hand))
+	end
 end
