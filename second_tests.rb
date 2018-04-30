@@ -88,4 +88,26 @@ class Poker_Hand_test < Minitest::Test
 		hand = {"hand1" => ["4s", "4d", "4c", "2h","7s"]}
 		assert_equal(winner,three_of_a_kind(hand))
 	end
+
+	def test_pair
+		hand = {"hand1" => ["4s", "4d", "5c", "2h","7s"]}
+		assert_equal(Hash,pair(hand).class)
+	end
+
+	def test_for_three_of_a_kind
+		winner = {"hand1" => "Winner Winner"}
+		hand = {"hand1" => ["4s", "4d", "5c", "2h","7s"]}
+		assert_equal(winner,pair(hand))
+	end
+
+	def test_full_house
+		hand = {"hand1" => ["10s", "10d", "10c", "9h","9s"]}
+		assert_equal(Hash,full_house(hand).class)
+	end
+
+	def test_full_house_winner
+		winner = {"hand1" => "Winner Winner"}
+		hand = {"hand1" => ["10s", "10d", "10c", "9h","9s"]}
+		assert_equal(winner,full_house(hand))
+	end
 end
