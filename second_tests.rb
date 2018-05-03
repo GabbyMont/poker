@@ -206,4 +206,54 @@ class Poker_Hand_test < Minitest::Test
 		hand = ["7s", "4d", "3c", "5h","6s"]
 		assert_equal(true,high_card(hand))
 	end
+
+	def test_two_cards_for_royal_flush_winner
+		hand1 = ["Ad", "Kd", "Qd", "Jd","Td"]
+		hand2 = ["9h", "3d", "4d", "6s", "5h"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_roy_win_not_str_win
+		hand1 = ["Ad", "Kd", "Qd", "Jd","Td"]
+		hand2 = ["Ts", "9s", "7s", "8s","6s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_straight_win
+		hand1 = ["Ts", "9s", "7s", "8s","6s"]
+		hand2 = ["As", "9s", "7s", "8s","6s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_str_win_not_four_win
+		hand1 = ["Ts", "9s", "7s", "8s","6s"]
+		hand2 = ["2s", "2d", "2c", "4h","7s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_four_of_a_kind_tie
+		hand1 = ["2s", "2d", "2c", "2h","7s"]
+		hand2 = ["2s", "2d", "2c", "2h","7s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Tie!",hand_comparison(hands))
+	end
+
+	def test_fullhouse_win
+		hand1 = ["2s", "9s", "9s", "8s","6s"]
+		hand2 = ["Js", "Jd", "Jc", "Th","Ts"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player Two is the winner",hand_comparison(hands))
+	end
+
+	def test_hand_two_high_card
+		hand1 = ["2s", "9h", "4d", "3s","6c"]
+		hand2 = ["Js", "2d", "6c", "8h","Ts"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player Two is the winner",hand_comparison(hands))
+	end
+
 end

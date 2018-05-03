@@ -103,8 +103,11 @@ face_value = []
 	end
 	face_value = face_changer(face_value)
 	face_value.sort!
+	# Makes array for consecutive numbers in a hand
 	newarray = [*face_value[0]..face_value[0]+4]
+	# Removes duplicates and gives length of remaining card type
 	if suit_value.uniq.length == 1
+		# Evaluating hand and testing if true
 		if face_value == newarray
 			true
 		end
@@ -118,6 +121,7 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
+	# Evaluating hand for duplicates and testing if true
 	if face_value.uniq.length == 2
 		true
 	end
@@ -209,9 +213,3 @@ face_value = []
 	face_value.sort!
 	true
 end
-
-
-# Returns the hand builder function
-# hands = {"hand1" => ["9h", "3d", "4d", "6s", "5h"],"hand2" => ["7h", "3d", "4d", "6s", "5s"]}
-		
-# p hand_comparison(hands)
