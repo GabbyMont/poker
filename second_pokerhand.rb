@@ -10,158 +10,12 @@ hands = {}
 		   deck = deck.shuffle!
 		end
 	end
-	hand1 = deck.pop(5)
-	# hand2 = deck.pop(5)
-	# Takes the hands hash and sets key of hand1 equal to value of hand1 // If hand one does not exist as a key then it will be created // If hand1 does exist it will just update the value that is there
-	hands["hand1"] = hand1
-	# hands["hand2"] = hand2
-	royal_flush(hands)
-	hands
-end
-
-def royal_flush(hands)
-	# Creates array for specific suit // Ex.) h(hearts)
-	suit_value = []
-	# Creates array for all faces required to win // Ex.) In order => ["A","K","Q","J","T"]
-	face_value = []
-	hand = hands['hand1']
-		# Loop to iterate over each individual card in the hands hash
-		hand.each do |card|
-			# Pushes index[0] of card into face_value array(The first index of each string => face: A..T)
-			face_value << card[0]
-			# Pushes index[0] of card into face_value array(The second index of each string => suit: clubs..spades )
-			suit_value << card[1]
-		end
-		# If statement checking length of the suit value after suits are seperated from royal flush => should all be "d" for diamonds(uniq removes all duplicates making the length 1)
-		if suit_value.uniq.length == 1
-			# Then if face_value inlcudes the ["A", "K", "Q", "J", "T"] faces...
-			if face_value.include?("A") && face_value.include?("K") && face_value.include?("Q") && face_value.include?("J") && face_value.include?("T")
-				# ...The hand1 value will come back as the string below
-				hands["hand1"] = "Winner Winner Chicken Dinner"
-			end
-		end
-	# Returns hands hash
-	hands
-end
-
-def straight_flush(hands)
-	suit_value = []
-	face_value = []
-	hand  = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		face_value = face_changer(face_value)
-		face_value.sort!
-		newarray = [*face_value[0]..face_value[0]+4]
-		if suit_value.uniq.length == 1
-			if face_value == newarray
-				hands["hand1"] = "Straight Flush #{face_value.last}"
-			end
-		end
-	hands
-end
-
-def four_of_a_kind(hands)
-	suit_value = []
-	face_value = []
-	hand = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		if face_value.uniq.length == 2
-			hands['hand1'] = "Winner Winner" 
-		end
-	hands
-end
-
-def three_of_a_kind(hands)
-	suit_value = []
-	face_value = []
-	hand = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		if face_value.uniq.length == 3
-			hands['hand1'] = "Winner Winner" 
-		end
-	hands
-end
-
-def pair(hands)
-	suit_value = []
-	face_value = []
-	hand = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		if face_value.uniq.length == 4
-			hands['hand1'] = "Winner Winner" 
-		end
-	hands
-end
-
-def full_house(hands)
-	suit_value = []
-	face_value = []
-	hand = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		if face_value.uniq.length == 2
-			hands['hand1'] = "Winner Winner"
-		end
-	hands
-end
-
-def flush(hands)
-	suit_value = []
-	face_value = []
-	hand = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		if suit_value.uniq.length == 1
-			hands['hand1'] = "Winner Winner"
-		end
-	hands
-end
-
-def straight(hands)
-	suit_value = []
-	face_value = []
-	hand  = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		face_value = face_changer(face_value)
-		face_value.sort!
-		newarray = [*face_value[0]..face_value[0]+4]
-		if face_value == newarray
-			hands["hand1"] = "Straight #{face_value.last}"
-		end
-	hands
-end
-
-def two_pair(hands)
-	suit_value = []
-	face_value = []
-	hand = hands['hand1']
-		hand.each do |card|
-			face_value << card[0]
-			suit_value << card[1]
-		end
-		if face_value.uniq.length == 3
-			hands['hand1'] = "Winner Winner" 
-		end
-	hands
+hand1 = deck.pop(5)
+hand2 = deck.pop(5)
+# Takes the hands hash and sets key of hand1 equal to value of hand1 // If hand one does not exist as a key then it will be created // If hand1 does exist it will just update the value that is there
+hands["hand1"] = hand1
+hands["hand2"] = hand2
+hands
 end
 
 def face_changer(face_value)
@@ -184,5 +38,180 @@ def face_changer(face_value)
 	face_value
 end
 
+def hand_comparison(hands)
+	hands.each do |key,value|
+		if royal_flush(value) == true
+			hands[key] = 100
+		elsif straight_flush(value) == true
+			hands[key] = 90
+		elsif four_of_a_kind(value) == true
+			hands[key] = 80
+		elsif full_house(value) == true
+			hands[key] = 70
+		elsif flush(value) == true
+			hands[key] = 60
+		elsif straight(value) == true
+			hands[key] = 50
+		elsif three_of_a_kind(value) == true
+			hands[key] = 40
+		elsif two_pair(value) == true
+			hands[key] = 30
+		elsif pair(value) == true
+			hands[key] = 20
+		else high_card(value) == true
+			hands[key] = 10
+		end
+	end
+	
+	if hands["hand1"] > hands["hand2"]
+		"Player One is the winner"
+	elsif hands["hand1"] < hands["hand2"]
+		"Player Two is the winner"
+	else 
+		"Tie!"
+	end
+end
+
+def royal_flush(hand)
+# Creates array for specific suit // Ex.) h(hearts)
+suit_value = []
+# Creates array for all faces required to win // Ex.) In order => ["A","K","Q","J","T"]
+face_value = []
+	# Loop to iterate over each individual card in the hands hash
+	hand.each do |card|
+		# Pushes index[0] of card into face_value array(The first index of each string => face: A..T)
+		face_value << card[0]
+		# Pushes index[0] of card into face_value array(The second index of each string => suit: clubs..spades )
+		suit_value << card[1]
+	end
+	# If statement checking length of the suit value after suits are seperated from royal flush => should all be "d" for diamonds(uniq removes all duplicates making the length 1)
+	if suit_value.uniq.length == 1
+		# Then if face_value inlcudes the ["A", "K", "Q", "J", "T"] faces...
+		if face_value.include?("A") && face_value.include?("K") && face_value.include?("Q") && face_value.include?("J") && face_value.include?("T")
+			# ...The hand1 value will return true
+			true
+		end
+	end
+end
+
+def straight_flush(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	face_value = face_changer(face_value)
+	face_value.sort!
+	newarray = [*face_value[0]..face_value[0]+4]
+	if suit_value.uniq.length == 1
+		if face_value == newarray
+			true
+		end
+	end
+end
+
+def four_of_a_kind(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	if face_value.uniq.length == 2
+		true
+	end
+end
+
+def three_of_a_kind(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	if face_value.uniq.length == 3
+		true
+	end
+end
+
+def pair(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	if face_value.uniq.length == 4
+		true 
+	end
+end
+
+def full_house(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	if face_value.uniq.length == 2
+		true
+	end
+end
+
+def flush(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	if suit_value.uniq.length == 1
+		true
+	end
+end
+
+def straight(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	face_value = face_changer(face_value)
+	face_value.sort!
+	newarray = [*face_value[0]..face_value[0]+4]
+	if face_value == newarray
+		true
+	end
+end
+
+def two_pair(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	if face_value.uniq.length == 3
+		true 
+	end
+end
+
+def high_card(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	face_value = face_changer(face_value)
+	face_value.sort!
+	true
+end
+
+
 # Returns the hand builder function
-hand_builder()
+# hands = {"hand1" => ["9h", "3d", "4d", "6s", "5h"],"hand2" => ["7h", "3d", "4d", "6s", "5s"]}
+		
+# p hand_comparison(hands)

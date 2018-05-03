@@ -1,9 +1,13 @@
 faces = "AKQJT98765432"
 suits = "cdhs"
 
+# Create an array to push the selected cards into
 deck = []
+# .each_byte seperates characters in a string // ["A", "K", "Q", "J", "T","9","8"...]
 faces.each_byte do |f|
+# ["c", "d", "h", "s"]
  suits.each_byte do |s|
+# Adds a character from the faces string to a character from the suits string and pushes them into an array // ["4s", "6d", "Jd", "As", "5c"]
    deck.push(f.chr + s.chr)
  end
 end
@@ -20,11 +24,13 @@ hands = {}
 	faces.each_byte do |f|
 		suits.each_byte do |s|
 		   deck.push(f.chr + s.chr)
+		   # Shuffles the deck array after the faces and suits characters have been added together into one array
 		   deck = deck.shuffle!
 		end
 	end
 	hand1 = deck.pop(5)
 	hand2 = deck.pop(5)
+	# Takes the hands hash and sets key of hand1 equal to value of hand1 // If hand one does not exist as a key then it will be created // If hand1 does exist it will just update the value that is there
 	hands["hand1"] = hand1
 	hands["hand2"] = hand2
 	hands
@@ -57,22 +63,6 @@ end
 
 p hand_builder()
 
-#######################################
-
-# COMPLETELY DIFFERENT FUCTION
-deck = {
-    "hearts" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"],
-    "diamonds" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"],
-    "spades" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"],
-    "clubs" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"]
-}
-
-def create_deck(deck)
-  hand = deck[deck.keys.sample]
-  puts hand
-  hand
-end
-
 ################################################
 
 def hand_builder()
@@ -100,3 +90,18 @@ def card_game(hand1,hand2)
 end
 
 p hand_builder()
+
+#######################################
+
+deck = {
+    "hearts" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"],
+    "diamonds" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"],
+    "spades" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"],
+    "clubs" => [2,3,4,5,6,7,8,9,10,"J","Q","K","A"]
+}
+
+def create_deck(deck)
+  hand = deck[deck.keys.sample]
+  puts hand
+  hand
+end
