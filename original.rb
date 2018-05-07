@@ -105,3 +105,39 @@ def create_deck(deck)
   puts hand
   hand
 end
+
+#########################
+#########################
+#########################
+
+def deal_with_tie(hand)
+	counter = 1
+	match_card = 0
+	hand.each do |num|
+		hand_mock = hand.delete_at(counter)
+		if hand_mock.include?(num)
+			match_card = num
+		end
+		counter += 1
+	end
+	match_card
+end
+
+def removed_duplicates(hand,matched)
+	hand = 
+	new_hand = hand.delete(matched)
+	new_hand = 
+	last_hand = hand.last
+end
+
+def eavaluate_tie(hand1,hand2)
+	hand1_match = deal_with_tie(hand1)
+	hand2_match = deal_with_tie(hand2)
+	if hand1 == hand2
+		high1 = highcard(hand2)
+		high2 = highcard(hand2)
+	end
+	if hand1_match > hand2_match
+		"Hand One is winner"
+	end
+end
