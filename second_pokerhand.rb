@@ -32,20 +32,13 @@ def look_at_tie(hand1,hand2)
 	array_of_faces = []
 	arr_of_faces2 = []
 	result = ""
-	face_value1 = []
-	suit_value1 = []
-	face_value2 = []
-	suit_value2 = []
 
 
 	hand1.each do |card|
 		hand1_separator = card.split(//)
 		faces_to_integers = hand1_separator[0].to_i
 		array_of_faces << faces_to_integers
-		face_value1 << card[0]
-		# suit_value1 << card[1]
 	end
-	face_value1 = face_changer(face_value1)
 	sorted_hand1 = array_of_faces.sort
 	hand1_dupes = sorted_hand1.join().match('(.)\1')[0]
 	hand1_duplicate_strings = hand1_dupes.split(//)
@@ -55,30 +48,13 @@ def look_at_tie(hand1,hand2)
     	hand2_separator = card.split(//)
     	faces_to_int2 = hand2_separator[0].to_i
 		arr_of_faces2 << faces_to_int2
-		face_value2 << card[0]
-		# suit_value2 << card[1]
 	end
-	face_value2 = face_changer(face_value2)
 	sorted_hand2 = arr_of_faces2.sort
 	hand2_dupes = sorted_hand2.join().match('(.)\1')[0]
 	hand2_duplicate_strings = hand2_dupes.split(//)
 	hand2_single_digit = hand2_duplicate_strings[0].to_i
 	
-	# hand1_single_digit > hand2_single_digit ? result = "hand1 wins" : result = "hand2 wins"
-	if hand1_single_digit > hand2_single_digit
-		result = "hand1 wins"
-	else
-		result = "hand2 wins"
-	end
-	p face_value1
-	# p suit_value1
-	# p hand1_duplicate_strings
-	# p sorted_hand1
-	# p hand2_single_digit
-	# p hand2_duplicate_strings
-	# p sorted_hand2
-	p face_value2
-	# p suit_value2
+	hand1_single_digit > hand2_single_digit ? result = "hand1 wins" : result = "hand2 wins"
 end
 
 # def kicker_card(hand,matched)
@@ -274,9 +250,12 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
+	face_value = face_changer(face_value)
+	face_value.sort!
 	if face_value.uniq.length == 4
 		true 
 	end
+	p face_value
 end
 
 def full_house(hand)

@@ -123,6 +123,19 @@ class Poker_Hand_test < Minitest::Test
 	# 	assert_equal(true,pair(hand))
 	# end
 
+	# def test_pair_hand_royal_faces
+	# 	hand = ["Qs", "Qd", "5c", "2h","7s"]
+	# 	changed_hand = [2, 5, 7, 12,12]
+	# 	assert_equal(changed_hand,pair(hand))
+	# end
+
+	def test_pair_two_hands_royal_faces
+		hand1 = ["Qs", "Qd", "5c", "2h","7s"]
+		hand2 = ["Js", "Jd", "7c", "4h","2s"]
+	  	hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("hand2 wins",hand_comparison(hands))
+	end
+
 	# def test_pair_hand_nil
 	# 	hand = ["6s", "4d", "5c", "2h","7s"]
 	# 	assert_nil(pair(hand))
@@ -333,12 +346,12 @@ class Poker_Hand_test < Minitest::Test
 	# 	assert_equal("hand2 wins",look_at_tie(hand1,hand2))
 	# end
 
-	def test_pair_tie_breaker_hand2_winner
-		hand1 = ["Qs", "6d", "Qc", "2h","7s"]
-		# hand1 = [12, 6, 12, 2,7]
-		hand2 = ["Ks", "Kh", "2c", "4d","8s"]
-		# hand2 = [13, 13, 2, 4,8]
-	 	hands = {"hand1" => hand1,"hand2" => hand2}
-		assert_equal("hand2 wins",hand_comparison(hands))
-	end
+	# def test_pair_tie_breaker_hand2_winner
+	# 	hand1 = ["Qs", "6d", "Qc", "2h","7s"]
+	# 	# hand1_c = [12, 6, 12, 2,7]
+	# 	hand2 = ["Ks", "Kh", "2c", "4d","8s"]
+	# 	hand2_c = [13, 13, 2, 4,8]
+	#  	hands = {"hand1" => hand1,"hand2" => hand2}
+	# 	assert_equal("hand2 wins",hand_comparison(hands))
+	# end
 end
