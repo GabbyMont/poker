@@ -32,86 +32,54 @@ def look_at_tie(hand1,hand2)
 	array_of_faces = []
 	arr_of_faces2 = []
 	result = ""
-	# counter = 0
-	match_card1 = 0
-	match_card2 = 0
+	face_value1 = []
+	suit_value1 = []
+	face_value2 = []
+	suit_value2 = []
+
+
 	hand1.each do |card|
 		hand1_separator = card.split(//)
 		faces_to_integers = hand1_separator[0].to_i
 		array_of_faces << faces_to_integers
+		face_value1 << card[0]
+		# suit_value1 << card[1]
 	end
+	face_value1 = face_changer(face_value1)
 	sorted_hand1 = array_of_faces.sort
 	hand1_dupes = sorted_hand1.join().match('(.)\1')[0]
 	hand1_duplicate_strings = hand1_dupes.split(//)
 	hand1_single_digit = hand1_duplicate_strings[0].to_i
-	# face_value = face_changer(face_value)
-
-	
-	p hand1_duplicate_strings
-	p sorted_hand1
 
 	hand2.each do |card|
     	hand2_separator = card.split(//)
     	faces_to_int2 = hand2_separator[0].to_i
 		arr_of_faces2 << faces_to_int2
+		face_value2 << card[0]
+		# suit_value2 << card[1]
 	end
+	face_value2 = face_changer(face_value2)
 	sorted_hand2 = arr_of_faces2.sort
 	hand2_dupes = sorted_hand2.join().match('(.)\1')[0]
 	hand2_duplicate_strings = hand2_dupes.split(//)
 	hand2_single_digit = hand2_duplicate_strings[0].to_i
-
-	p hand2_single_digit
-	p hand2_duplicate_strings
-	p sorted_hand2
 	
-	
+	# hand1_single_digit > hand2_single_digit ? result = "hand1 wins" : result = "hand2 wins"
 	if hand1_single_digit > hand2_single_digit
 		result = "hand1 wins"
 	else
 		result = "hand2 wins"
 	end
+	p face_value1
+	# p suit_value1
+	# p hand1_duplicate_strings
+	# p sorted_hand1
+	# p hand2_single_digit
+	# p hand2_duplicate_strings
+	# p sorted_hand2
+	p face_value2
+	# p suit_value2
 end
-
-
-	# result = ""
-	# # Sets counter equal to one
-	# counter1 = 0
-	# # Sets match_card equal to 0
-	# match_card1 = 0
-	# # Hand loop to evaluate each postion in array
-	# hand1.each do |num|
-	# 	# Deletes counter position(position in hand after evaluated)
-	# 	# hand_mock = hand1.find_all(num)
-	# 	# If matched_card is the included number...
-	# 	if hand1.find_all(num)
-	# 		match_card1 = num
-	# 		new_hand1 << match_card1
-	# 		# ...then the two numbers equal
-	# 		# match_card1 = num
-	# 	end
-	# 	counter1 += 1
-	# end
-	# match_card1
-	# # Sets counter equal to one
-	# counter2 = 0
-	# # Sets match_card equal to 0
-	# match_card2 = 0
-	# # Hand loop to evaluate each postion in array
-	# hand2.each do |num|
-	# 	# Deletes counter position(position in hand after evaluated)
-	# 	hand_mock2 = hand2.find_all(num)
-	# 	# If matched_card is the included number...
-	# 	if hand_mock2.find_all(num)
-	# 		match_card2 = num
-	# 		new_hand2 << match_card2
-	# 		# ...then the two numbers equal
-	# 		# match_card2 = num
-	# 	end
-	# 	# Adds counter(to move through each position)
-	# 	counter2 += 1
-	# end
-	# match_card2
-
 
 # def kicker_card(hand,matched)
 # 	new_hand = hand.delete(matched)
@@ -228,30 +196,6 @@ end
 #     	result = "hand2 wins"
 #     end
 #    	result
-# end
-
-# def pair_tiebreaker(hand1,hand2)
-#   	suit_value = []
-#   	face_value = []
-#   	result = ""
-#   hand1.group_by{ |card| card 
-#    	face_value << card[0]
-#     suit_value << card[1]}.select { |face_value| face_value.size > 1 }.map(&:first)
-#     face_value = face_changer(face_value)
-#     face_value.sort!
-# 	p "THIS IS HAND ONE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#{hand1}"
-
-#   hand2.group_by{ |card| card 
-#     face_value << card[0]
-#     suit_value << card[1]}.select { |face_value| face_value.size > 1}.map(&:first)
-#  #hand2.find_all{|card| hand2.rindex(card) != hand2.index(card)}.uniq
-#     face_value = face_changer(face_value)
-#     face_value.sort!
-# 	if hand1 > hand2
-# 		result = "hand1 wins"
-# 	else
-# 		result = "hand2 wins"
-# 	end
 # end
 
 def royal_flush(hand)
