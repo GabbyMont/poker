@@ -29,32 +29,28 @@ end
 ############################################
 # look_at_tie function looks at each position(then deletes it from hand being evaluated) in hand and counts each dulpicated card
 def look_at_tie(hand1,hand2)
-	array_of_faces = []
-	arr_of_faces2 = []
+	face_value1 = []
+	face_value2 = []
 	result = ""
 
-
 	hand1.each do |card|
-		hand1_separator = card.split(//)
-		faces_to_integers = hand1_separator[0].to_i
-		array_of_faces << faces_to_integers
+		face_value1 << card[0]
 	end
-	sorted_hand1 = array_of_faces.sort
-	hand1_dupes = sorted_hand1.join().match('(.)\1')[0]
-	hand1_duplicate_strings = hand1_dupes.split(//)
-	hand1_single_digit = hand1_duplicate_strings[0].to_i
+	royal_hand1 = face_changer(face_value1)
+  	matches1 = royal_hand1.sort
+ 	hand1_dupes = matches1.select{|item| matches1.count(item) > 1}.uniq
+ 	matched_number1 = hand1_dupes[0]
 
 	hand2.each do |card|
-    	hand2_separator = card.split(//)
-    	faces_to_int2 = hand2_separator[0].to_i
-		arr_of_faces2 << faces_to_int2
+		face_value2 << card[0]
 	end
-	sorted_hand2 = arr_of_faces2.sort
-	hand2_dupes = sorted_hand2.join().match('(.)\1')[0]
-	hand2_duplicate_strings = hand2_dupes.split(//)
-	hand2_single_digit = hand2_duplicate_strings[0].to_i
+	hand2_faces = face_changer(face_value2)
+  	matches2 = royal_hand1.sort
+  	hand2_dupes = matches2.select{|item| matches2.count(item) > 1}.uniq
+  	matched_number2 = hand2_dupes[0]
 	
-	hand1_single_digit > hand2_single_digit ? result = "hand1 wins" : result = "hand2 wins"
+	# If hand1_single_digit > hand2_single_digit then result = "hand1 wins" else result = "hand2 wins"
+	matched_number1 > matched_number2 ? result = "hand1 wins" : result = "hand2 wins"
 end
 
 # def kicker_card(hand,matched)
@@ -250,12 +246,9 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
-	face_value = face_changer(face_value)
-	face_value.sort!
-	if face_value.uniq.length == 4
-		true 
+	if suit_value.uniq.length == 4
+		true
 	end
-	p face_value
 end
 
 def full_house(hand)
