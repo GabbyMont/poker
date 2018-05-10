@@ -46,54 +46,53 @@ def look_at_tie(hand1,hand2)
 	hand1.each do |card|
 		face_value1 << card[0]
 	end
-	royal_hand1 = face_changer(face_value1)
-  	matches1 = royal_hand1.sort
+	hand1_faces = face_changer(face_value1)
+  	matches1 = hand1_faces.sort
  	hand1_dupes = matches1.select{|item| matches1.count(item) > 1}.uniq
- 	matched_number1 = hand1_dupes[0]
+ 	hand1_dupes_sum = hand1_dupes.sum
+ 	# matched_number1 = hand1_dupes_sum[0]
 
 	hand2.each do |card|
 		face_value2 << card[0]
 	end
 	hand2_faces = face_changer(face_value2)
-  	matches2 = royal_hand1.sort
+  	matches2 = hand2_faces.sort
   	hand2_dupes = matches2.select{|item| matches2.count(item) > 1}.uniq
-  	matched_number2 = hand2_dupes[0]
+ 	hand2_dupes_sum = hand2_dupes.sum
+  	# matched_number2 = hand2_dupes[0]
 	
 	# If hand1_single_digit > hand2_single_digit then result = "hand1 wins" else result = "hand2 wins"
-	matched_number1 > matched_number2 ? result = "hand1 wins" : result = "hand2 wins"
+	hand1_dupes_sum > hand2_dupes_sum ? result = "hand1 wins" : result = "hand2 wins"
+	
 end
 
-def kicker_card(hand,matched)
-	new_hand = hand.delete(matched)
-	last_hand = hand.last
-end
+# def kicker_card(hand1,hand2)
+# 	new_hand = hand.delete(matched)
+# 	last_hand = hand.last
+# end
 
-def evaluate_tie(hand1,hand2)
-  new_hand = hand.delete(match_card)
-  high_num = hand.last
-end
-
-# def eval_tie(hand1,hand2)
-  # hand1match = []
-  # hand2match = []
-  # hand1match = deal_with_tie(hand1)
-  # hand2match = deal_with_tie(hand2)
-  # if hand1match == hand2match
-  #   kicker_card1 = kicker_card(hand1)
-  #   kicker_card2 = kicker_card(hand2)
-  #   # if kicker_card1 > kicker_card2
-  #   #   "hand1 is the winner"
-  #   #   else kicker_card2 > kicker_card1
-  #   #   "hand2 is the winner"
-  #   # end
-  #   hand1_match > hand2_match ? "hand1 is the winner" : hand2_match > hand1_match ? "hand2 is the winner"
-  # if hand1match > hand2match
-  #   "hand1 is the winner"
-    
-  # else
-  #   hand2match > hand1match
-  #   "hand2 is the winner"
-  # end
+# def evaluate_tie(hand1,hand2)
+# 	hand1match = []
+# 	hand2match = []
+# 	hand1_match = look_at_tie(hand1)
+# 	hand2_match = look_at_tie(hand2)
+# 	p "THIS IS HAND 1 MATCH #{hand1_match}"
+# 	p "THIS IS HAND 2 MATCH #{hand2_match}"
+# 	if hand1_match == hand2_match
+# 	    kicker_card1 = kicker_card(hand1)
+# 	    kicker_card2 = kicker_card(hand2)
+# 	    if kicker_card1 > kicker_card2
+# 	      "hand1 is the winner"
+# 	    else kicker_card2 > kicker_card1
+# 	      "hand2 is the winner"
+# 	    end
+# 	    # hand1_match > hand2_match ? "hand1 is the winner" : hand2_match > hand1_match ? "hand2 is the winner"
+# 		if hand1_match > hand2_match
+# 			"hand1 is the winner"
+# 		else hand2_match > hand1_match
+# 		    "hand2 is the winner"
+# 		end
+# 	end
 # end
 
 def face_changer(face_value)
