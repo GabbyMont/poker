@@ -18,15 +18,25 @@ hands["hand2"] = hand2
 hands
 end
 
-def compare_straights(hand1,hand2)
-	if hand1 > hand2
-		true
-	else 
-		false
+def card_separator(hand)
+# Creates array for specific suit // Ex.) h(hearts)
+suit_value = []
+# Creates array for all faces required to win // Ex.) In order => ["A","K","Q","J","T"]
+face_value = []
+	# Loop to iterate over each individual card in the hands hash
+	hand.each do |card|
+		# Pushes index[0] of card into face_value array(The first index of each string => face: A..T)
+		face_value << card[0]
+		# Pushes index[0] of card into face_value array(The second index of each string => suit: clubs..spades )
+		suit_value << card[1]
 	end
 end
 
-############################################
+
+def compare_straights(hand1,hand2)
+	hand1 > hand2 ? true : false
+end
+
 # look_at_tie function looks at each position(then deletes it from hand being evaluated) in hand and counts each dulpicated card
 def look_at_tie(hand1,hand2)
 	face_value1 = []
@@ -53,27 +63,38 @@ def look_at_tie(hand1,hand2)
 	matched_number1 > matched_number2 ? result = "hand1 wins" : result = "hand2 wins"
 end
 
-# def kicker_card(hand,matched)
-# 	new_hand = hand.delete(matched)
-# 	last_hand = hand.last
-# end
+def kicker_card(hand,matched)
+	new_hand = hand.delete(matched)
+	last_hand = hand.last
+end
 
-# def evaluate_tie(hands)
-# 	hands["hand1"] = hand1
-# 	hands["hand2"] = hand2
-# 	hand1_match = look_at_tie(hands["hand1"])
-# 	hand2_match = look_at_tie(hands["hand2"])
-# 	if hands["hand1"] == hands["hand2"]
-# 		high1 = kicker_card(hands["hand1"])
-# 		high2 = kicker_card(hands["hand2"])
-# 	end
-# 	if high1['hand1'] > high2['hand2']
-# 		"Hand One wins"
-# 	else high2['hand2'] > high1['hand1']
-# 		"Hand Two wins"
-# 	end
+def evaluate_tie(hand1,hand2)
+  new_hand = hand.delete(match_card)
+  high_num = hand.last
+end
+
+# def eval_tie(hand1,hand2)
+  # hand1match = []
+  # hand2match = []
+  # hand1match = deal_with_tie(hand1)
+  # hand2match = deal_with_tie(hand2)
+  # if hand1match == hand2match
+  #   kicker_card1 = kicker_card(hand1)
+  #   kicker_card2 = kicker_card(hand2)
+  #   # if kicker_card1 > kicker_card2
+  #   #   "hand1 is the winner"
+  #   #   else kicker_card2 > kicker_card1
+  #   #   "hand2 is the winner"
+  #   # end
+  #   hand1_match > hand2_match ? "hand1 is the winner" : hand2_match > hand1_match ? "hand2 is the winner"
+  # if hand1match > hand2match
+  #   "hand1 is the winner"
+    
+  # else
+  #   hand2match > hand1match
+  #   "hand2 is the winner"
+  # end
 # end
-#################################
 
 def face_changer(face_value)
 	# Loops face_value and updates the new array with the given number
@@ -171,22 +192,17 @@ end
 # end
 
 def royal_flush(hand)
-# Creates array for specific suit // Ex.) h(hearts)
 suit_value = []
-# Creates array for all faces required to win // Ex.) In order => ["A","K","Q","J","T"]
 face_value = []
-	# Loop to iterate over each individual card in the hands hash
 	hand.each do |card|
-		# Pushes index[0] of card into face_value array(The first index of each string => face: A..T)
 		face_value << card[0]
-		# Pushes index[0] of card into face_value array(The second index of each string => suit: clubs..spades )
 		suit_value << card[1]
 	end
+	# suit_value = card_separator(hand)
 	# If statement checking length of the suit value after suits are separated from royal flush => should all be "d" for diamonds(uniq removes all duplicates making the length 1)
 	if suit_value.uniq.length == 1
-		# Then if face_value inlcudes the ["A", "K", "Q", "J", "T"] faces...
+		# Then if face_value inlcudes the ["A", "K", "Q", "J", "T"] faces, the hand1 value will return true
 		if face_value.include?("A") && face_value.include?("K") && face_value.include?("Q") && face_value.include?("J") && face_value.include?("T")
-			# ...The hand1 value will return true
 			true
 		end
 	end
@@ -208,23 +224,14 @@ face_value = []
 	# Removes duplicates and gives length of remaining card type
 	if suit_value.uniq.length == 1
 		# Evaluating hand and testing if true
-		if face_value == newarray
-			true
-		end
+		true if face_value == newarray
 	end
 end
 
 def four_of_a_kind(hand)
-suit_value = []
-face_value = []
-	hand.each do |card|
-		face_value << card[0]
-		suit_value << card[1]
-	end
+	face_value = card_separator(hand)
 	# Evaluating hand for duplicates and testing if true
-	if face_value.uniq.length == 2
-		true
-	end
+	true if face_value.uniq.length == 2
 end
 
 def three_of_a_kind(hand)
@@ -234,45 +241,23 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
-	if face_value.uniq.length == 3
-		true
-	end
+	# face_value = card_separator(hand)
+	true if face_value.uniq.length == 3
 end
 
 def pair(hand)
-suit_value = []
-face_value = []
-	hand.each do |card|
-		face_value << card[0]
-		suit_value << card[1]
-	end
-	if suit_value.uniq.length == 4
-		true
-	end
+	suit_value = card_separator(hand)
+	true if suit_value.uniq.length == 4
 end
 
 def full_house(hand)
-suit_value = []
-face_value = []
-	hand.each do |card|
-		face_value << card[0]
-		suit_value << card[1]
-	end
-	if face_value.uniq.length == 2
-		true
-	end
+	face_value = card_separator(hand)
+	true if face_value.uniq.length == 2
 end
 
 def flush(hand)
-suit_value = []
-face_value = []
-	hand.each do |card|
-		face_value << card[0]
-		suit_value << card[1]
-	end
-	if suit_value.uniq.length == 1
-		true
-	end
+	suit_value = card_separator(hand)
+	true if suit_value.uniq.length == 1
 end
 
 def straight(hand)
@@ -285,9 +270,7 @@ face_value = []
 	face_value = face_changer(face_value)
 	face_value.sort!
 	newarray = [*face_value[0]..face_value[0]+4]
-	if face_value == newarray
-		true
-	end
+	true if face_value == newarray
 end
 
 def two_pair(hand)
@@ -297,18 +280,12 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
-	if face_value.uniq.length == 3
-		true 
-	end
+	# face_value = card_separator(hand)
+	true if face_value.uniq.length == 3
 end
 
 def high_card(hand)
-suit_value = []
-face_value = []
-	hand.each do |card|
-		face_value << card[0]
-		suit_value << card[1]
-	end
+	face_value = card_separator(hand)
 	face_value = face_changer(face_value)
 	face_value.sort!
 	true
