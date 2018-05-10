@@ -19,22 +19,17 @@ hands
 end
 
 def card_separator(hand)
-# Creates array for specific suit // Ex.) h(hearts)
+# Creates array for specific suit
 suit_value = []
-# Creates array for all faces required to win // Ex.) In order => ["A","K","Q","J","T"]
+# Creates array for all faces required to win
 face_value = []
 	# Loop to iterate over each individual card in the hands hash
 	hand.each do |card|
-		# Pushes index[0] of card into face_value array(The first index of each string => face: A..T)
+		# Pushes index[0] of card into face_value array
 		face_value << card[0]
-		# Pushes index[0] of card into face_value array(The second index of each string => suit: clubs..spades )
+		# Pushes index[0] of card into face_value array
 		suit_value << card[1]
 	end
-end
-
-
-def compare_straights(hand1,hand2)
-	hand1 > hand2 ? true : false
 end
 
 # look_at_tie function looks at each position(then deletes it from hand being evaluated) in hand and counts each dulpicated card
@@ -42,58 +37,41 @@ def look_at_tie(hand1,hand2)
 	face_value1 = []
 	face_value2 = []
 	result = ""
+	high_number = ""
 
 	hand1.each do |card|
 		face_value1 << card[0]
 	end
 	hand1_faces = face_changer(face_value1)
   	matches1 = hand1_faces.sort
+  	new_hand1 = matches1.group_by { |e| e }.select { |k, v| v.size.eql? 1 }.keys
  	hand1_dupes = matches1.select{|item| matches1.count(item) > 1}.uniq
  	hand1_dupes_sum = hand1_dupes.sum
- 	# matched_number1 = hand1_dupes_sum[0]
+ 	high_num1 = new_hand1.last
 
 	hand2.each do |card|
 		face_value2 << card[0]
 	end
 	hand2_faces = face_changer(face_value2)
   	matches2 = hand2_faces.sort
+  	new_hand2 = matches2.group_by { |e| e }.select { |k, v| v.size.eql? 1 }.keys
   	hand2_dupes = matches2.select{|item| matches2.count(item) > 1}.uniq
  	hand2_dupes_sum = hand2_dupes.sum
-  	# matched_number2 = hand2_dupes[0]
-	
-	# If hand1_single_digit > hand2_single_digit then result = "hand1 wins" else result = "hand2 wins"
-	hand1_dupes_sum > hand2_dupes_sum ? result = "hand1 wins" : result = "hand2 wins"
-	
+ 	high_num2 = new_hand2.last
+
+	if hand1_dupes_sum > hand2_dupes_sum 
+		result = "hand1 wins" 
+	elsif hand1_dupes_sum > hand2_dupes_sum
+	 	 result = "hand2 wins"
+	else hand1_dupes_sum == hand2_dupes_sum
+		if high_num1 > high_num2
+      		high_number = "hand1 is the winner"
+    	else
+      		high_number = "hand2 is the winner"
+      	end
+      	high_number
+    end
 end
-
-# def kicker_card(hand1,hand2)
-# 	new_hand = hand.delete(matched)
-# 	last_hand = hand.last
-# end
-
-# def evaluate_tie(hand1,hand2)
-# 	hand1match = []
-# 	hand2match = []
-# 	hand1_match = look_at_tie(hand1)
-# 	hand2_match = look_at_tie(hand2)
-# 	p "THIS IS HAND 1 MATCH #{hand1_match}"
-# 	p "THIS IS HAND 2 MATCH #{hand2_match}"
-# 	if hand1_match == hand2_match
-# 	    kicker_card1 = kicker_card(hand1)
-# 	    kicker_card2 = kicker_card(hand2)
-# 	    if kicker_card1 > kicker_card2
-# 	      "hand1 is the winner"
-# 	    else kicker_card2 > kicker_card1
-# 	      "hand2 is the winner"
-# 	    end
-# 	    # hand1_match > hand2_match ? "hand1 is the winner" : hand2_match > hand1_match ? "hand2 is the winner"
-# 		if hand1_match > hand2_match
-# 			"hand1 is the winner"
-# 		else hand2_match > hand1_match
-# 		    "hand2 is the winner"
-# 		end
-# 	end
-# end
 
 def face_changer(face_value)
 	# Loops face_value and updates the new array with the given number
@@ -117,28 +95,27 @@ end
 
 def hand_comparison(hands)
 	starter_hands = hands.clone
-	starter_hands
 	starter_hands.each do |key,value|
 		if royal_flush(value) == true
-			starter_hands[key] = 10
+			starter_hands[key] = 100
 		elsif straight_flush(value) == true
-			starter_hands[key] = 9
+			starter_hands[key] = 90
 		elsif four_of_a_kind(value) == true
-			starter_hands[key] = 8
+			starter_hands[key] = 80
 		elsif full_house(value) == true
-			starter_hands[key] = 7
+			starter_hands[key] = 70
 		elsif flush(value) == true
-			starter_hands[key] = 6
+			starter_hands[key] = 60
 		elsif straight(value) == true
-			starter_hands[key] = 5
+			starter_hands[key] = 50
 		elsif three_of_a_kind(value) == true
-			starter_hands[key] = 4
+			starter_hands[key] = 40
 		elsif two_pair(value) == true
-			starter_hands[key] = 3
+			starter_hands[key] = 30
 		elsif pair(value) == true
-			starter_hands[key] = 2
+			starter_hands[key] = 20
 		else high_card(value) == true
-			starter_hands[key] = 1
+			starter_hands[key] = 10
 		end
 	end
 	
@@ -201,9 +178,7 @@ face_value = []
 	# If statement checking length of the suit value after suits are separated from royal flush => should all be "d" for diamonds(uniq removes all duplicates making the length 1)
 	if suit_value.uniq.length == 1
 		# Then if face_value inlcudes the ["A", "K", "Q", "J", "T"] faces, the hand1 value will return true
-		if face_value.include?("A") && face_value.include?("K") && face_value.include?("Q") && face_value.include?("J") && face_value.include?("T")
-			true
-		end
+		true if face_value.include?("A") && face_value.include?("K") && face_value.include?("Q") && face_value.include?("J") && face_value.include?("T")
 	end
 end
 
@@ -250,7 +225,13 @@ def pair(hand)
 end
 
 def full_house(hand)
-	face_value = card_separator(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	# face_value = card_separator(hand)
 	true if face_value.uniq.length == 2
 end
 
@@ -280,7 +261,9 @@ face_value = []
 		suit_value << card[1]
 	end
 	# face_value = card_separator(hand)
-	true if face_value.uniq.length == 3
+	if face_value.uniq.length == 3
+		true
+	end
 end
 
 def high_card(hand)
