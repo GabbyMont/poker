@@ -36,15 +36,18 @@ end
 def look_at_tie(hand1,hand2)
 	face_value1 = []
 	face_value2 = []
+	kicker_card_message = ""
 	result = ""
-	high_number = ""
+	high_number_string = ""
 
 	hand1.each do |card|
 		face_value1 << card[0]
 	end
 	hand1_faces = face_changer(face_value1)
   	matches1 = hand1_faces.sort
-  	new_hand1 = matches1.group_by { |e| e }.select { |k, v| v.size.eql? 1 }.keys
+  	new_hand1 = matches1.group_by { |card| card }.select { |k, v| v.size.eql? 1 }.keys
+  	next_kicker1 = new_hand1.pop
+  	last_card1 = new_hand1.last
  	hand1_dupes = matches1.select{|item| matches1.count(item) > 1}.uniq
  	hand1_dupes_sum = hand1_dupes.sum
  	high_num1 = new_hand1.last
@@ -54,7 +57,9 @@ def look_at_tie(hand1,hand2)
 	end
 	hand2_faces = face_changer(face_value2)
   	matches2 = hand2_faces.sort
-  	new_hand2 = matches2.group_by { |e| e }.select { |k, v| v.size.eql? 1 }.keys
+  	new_hand2 = matches2.group_by { |card| card }.select { |k, v| v.size.eql? 1 }.keys
+  	next_kicker2 = new_hand2.pop
+  	last_card2 = new_hand2.last
   	hand2_dupes = matches2.select{|item| matches2.count(item) > 1}.uniq
  	hand2_dupes_sum = hand2_dupes.sum
  	high_num2 = new_hand2.last
@@ -65,11 +70,12 @@ def look_at_tie(hand1,hand2)
 	 	 result = "hand2 wins"
 	else hand1_dupes_sum == hand2_dupes_sum
 		if high_num1 > high_num2
-      		high_number = "hand1 is the winner"
-    	else
-      		high_number = "hand2 is the winner"
+      		high_number_string = "hand1 is the winner"
+    	elsif high_num1 < high_num2
+      		high_number_string = "hand2 is the winner"
+      	else last_card1 >  last_card2
+      		kicker_card_message = "hand1 is the winner"
       	end
-      	high_number
     end
 end
 
@@ -97,28 +103,28 @@ def hand_comparison(hands)
 	starter_hands = hands.clone
 	starter_hands.each do |key,value|
 		if royal_flush(value) == true
-			starter_hands[key] = 100
-		elsif straight_flush(value) == true
-			starter_hands[key] = 90
-		elsif four_of_a_kind(value) == true
-			starter_hands[key] = 80
-		elsif full_house(value) == true
-			starter_hands[key] = 70
-		elsif flush(value) == true
-			starter_hands[key] = 60
-		elsif straight(value) == true
-			starter_hands[key] = 50
-		elsif three_of_a_kind(value) == true
-			starter_hands[key] = 40
-		elsif two_pair(value) == true
-			starter_hands[key] = 30
-		elsif pair(value) == true
-			starter_hands[key] = 20
-		else high_card(value) == true
 			starter_hands[key] = 10
+		elsif straight_flush(value) == true
+			starter_hands[key] = 9
+		elsif four_of_a_kind(value) == true
+			starter_hands[key] = 8
+		elsif full_house(value) == true
+			starter_hands[key] = 7
+		elsif flush(value) == true
+			starter_hands[key] = 6
+		elsif straight(value) == true
+			starter_hands[key] = 5
+		elsif three_of_a_kind(value) == true
+			starter_hands[key] = 4
+		elsif two_pair(value) == true
+			starter_hands[key] = 3
+		elsif pair(value) == true
+			starter_hands[key] = 2
+		else high_card(value) == true
+			starter_hands[key] = 1
 		end
 	end
-	
+
 	# If cloned hand1 is greater than cloned hand2 then print the string below
 	if starter_hands["hand1"] > starter_hands["hand2"]
 		"Player One is the winner"
@@ -133,7 +139,6 @@ def hand_comparison(hands)
 		look_at_tie(hands['hand1'],hands['hand2'])
 	end
 end
-
 
 # tie breaker is splitting the hands and gathering sum then returning winning score(highest sum)
 # def straight_tiebreaker(hand1,hand2)
@@ -204,23 +209,23 @@ end
 
 def four_of_a_kind(hand)
 	face_value = card_separator(hand)
+	# face_value = face_changer(face_value)
+	# face_value.sort!
 	# Evaluating hand for duplicates and testing if true
 	true if face_value.uniq.length == 2
 end
 
 def three_of_a_kind(hand)
-suit_value = []
-face_value = []
-	hand.each do |card|
-		face_value << card[0]
-		suit_value << card[1]
-	end
-	# face_value = card_separator(hand)
+	face_value = card_separator(hand)
+	# face_value = face_changer(face_value)
+	# face_value.sort!
 	true if face_value.uniq.length == 3
 end
 
 def pair(hand)
 	suit_value = card_separator(hand)
+	# face_value = face_changer(face_value)
+	# face_value.sort!
 	true if suit_value.uniq.length == 4
 end
 
@@ -237,7 +242,11 @@ end
 
 def flush(hand)
 	suit_value = card_separator(hand)
-	true if suit_value.uniq.length == 1
+	# face_value = face_changer(face_value)
+	# face_value.sort!
+	if suit_value.uniq.length == 1
+		true
+	end
 end
 
 def straight(hand)
@@ -260,6 +269,8 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
+	# face_value = face_changer(face_value)
+	# face_value.sort!
 	# face_value = card_separator(hand)
 	if face_value.uniq.length == 3
 		true
@@ -268,7 +279,7 @@ end
 
 def high_card(hand)
 	face_value = card_separator(hand)
-	face_value = face_changer(face_value)
-	face_value.sort!
+	# face_value = face_changer(face_value)
+	# face_value.sort!
 	true
 end
