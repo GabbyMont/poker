@@ -236,7 +236,13 @@ face_value = []
 end
 
 def flush(hand)
-	suit_value = card_separator(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
+	# suit_value = card_separator(hand)
 	true if suit_value.uniq.length == 1
 end
 

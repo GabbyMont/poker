@@ -33,9 +33,14 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal(TrueClass,royal_flush(hand).class)
 	end
 
-	def test_royal_true
+	def test_royal_flush_true
 		hand = ["Ad", "Kd", "Qd", "Jd","Td"]
 		assert_equal(true,royal_flush(hand))
+	end
+
+	def test_flush_true
+		hand = ["2d", "8d", "7d", "4d","3d"]
+		assert_equal(true,flush(hand))
 	end
 
 	def test_striaght_flush_true
@@ -227,9 +232,18 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal("hand2 wins",hand_comparison(hands))
 	end
 
+
+############################################## Flush tests not working
 	def test_flush_winner_hand_one_wins
-		hand1 = ["2d", "9d", "3d", "6d","8d"] #28
-		hand2 = ["4s", "4d", "4c", "2h","5s"]# 25
+		hand1 = ["3s", "5s", "4s", "2s","7s"]
+		hand2 = ["2d", "4d", "3s", "6h","5d"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_flush_beats_straight_hand
+		hand1 = ["2d", "9d", "3d", "6d","8d"]
+		hand2 = ["Js", "Jd", "Jc", "2h","5s"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("Player One is the winner",hand_comparison(hands))
 	end
@@ -240,6 +254,30 @@ class Poker_Hand_test < Minitest::Test
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("Player One is the winner",hand_comparison(hands))
 	end
+
+	def test_flush_beats_two_pairs
+		hand1 = ["9h", "3h", "6h", "5h", "8h"]
+		hand2 = ["7h", "Jh", "Jd", "5d", "5s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_flush_beats_one_pair
+		hand1 = ["9h", "3h", "6h", "5h", "8h"]
+		hand2 = ["Th", "3h", "3d", "2d", "5s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+
+	def test_flush_beats_single_high_card
+		hand1 = ["9h", "3h", "6h", "5h", "8h"]
+		hand2 = ["4h", "7h", "9d", "Jd", "Ks"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+###########################################
 
 	def test_hand_comparison_using_royal_three_of_a_kind
 	    hand1 = ["2h", "Qd", "Qc", "Qs", "6h"]
