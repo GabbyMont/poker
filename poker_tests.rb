@@ -213,13 +213,48 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal("Player Two is the winner",hand_comparison(hands))
 	end
 
+	def test_fullhouse_beats_flush
+		hand1 = ["2s", "2d", "2c", "3h","3s"]
+		hand2 = ["2s", "9s", "4s", "8s","6s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
 	def test_fullhouse_tie
 		hand1 = ["9s", "9h", "9c", "8d","8s"]
 		hand2 = ["Js", "Jd", "Jc", "Th","Ts"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("hand2 wins",hand_comparison(hands))
 	end
-	
+
+	def test_flush_winner_hand_one_wins
+		hand1 = ["2d", "9d", "3d", "6d","8d"] #28
+		hand2 = ["4s", "4d", "4c", "2h","5s"]# 25
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_flush_beats_three_of_a_kind
+		hand1 = ["2h", "3h", "4h", "5h", "8h"]
+		hand2 = ["7h", "3d", "4d", "6s", "5s"]
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_hand_comparison_using_royal_three_of_a_kind
+	    hand1 = ["2h", "Qd", "Qc", "Qs", "6h"]
+	    hand2 = ["3h", "Js", "Kh", "Kd", "Kc"] 
+	    hands = {"hand1" => hand1, "hand2" => hand2}
+	    assert_equal("hand2 wins",hand_comparison(hands))
+    end
+
+    def test_hand_comparison_using_royal_four_of_a_kind
+        hand1 = ["Qh", "Qd", "Qc", "Qs", "6h"]
+        hand2 = ["3h", "Ts", "Th", "Td", "Tc"] 
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("hand1 wins",hand_comparison(hands))
+    end
+
 	def test_two_pair_win_against_one_pair
 		hand1 = ["9s", "9h", "Tc", "4d","8s"]
 		hand2 = ["Js", "Jd", "8c", "Th","Ts"]
