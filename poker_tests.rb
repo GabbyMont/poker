@@ -72,12 +72,12 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal("hand1 wins",hand_comparison(hands))
 	end
 
-	# def test_pair_two_hands_same_matches #SHOILD BE WORKIJG
-	# 	hand2 = ["Qs", "Qd", "5c", "2h","7s"] # 38
-	# 	hand1 = ["Js", "8d", "7c", "Qh","Qs"] # 50
-	#   	hands = {"hand1" => hand1,"hand2" => hand2}
-	# 	assert_equal("Player One is the winner",hand_comparison(hands))
-	# end
+	def test_pair_two_hands_same_matches
+		hand2 = ["Qs", "Qd", "5c", "2h","7s"]
+		hand1 = ["Js", "8d", "7c", "Qh","Qs"]
+	  	hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("hand1 is the winner",hand_comparison(hands))
+	end
 
 	def test_pair_two_hands_royal_faces_look_at_tie
 		hand1 = ["Qs", "Qd", "5c", "2h","7s"]
@@ -219,14 +219,7 @@ class Poker_Hand_test < Minitest::Test
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("hand2 wins",hand_comparison(hands))
 	end
-
-	# def test_flush_winner_hand_one_wins
-	# 	hand1 = ["2d", "9d", "3d", "6d","8d"] # 28
-	# 	hand2 = ["Js", "Jd", "Jc", "8h","Ts"] # 51
-	# 	hands = {"hand1" => hand1,"hand2" => hand2}
-	# 	assert_equal("Player One is the winner",hand_comparison(hands))
-	# end
-
+	
 	def test_two_pair_win_against_one_pair
 		hand1 = ["9s", "9h", "Tc", "4d","8s"]
 		hand2 = ["Js", "Jd", "8c", "Th","Ts"]
@@ -269,11 +262,11 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal("Player Two is the winner",hand_comparison(hands))
 	end
 
-	# def test_pair_tiebreaker_hand2_winner
-	# 	hand1 = ["4s", "6d", "6c", "2h","7s"] # 25
-	# 	hand2 = ["9s", "9h", "2c", "4d","8s"] # 32
-	# 	assert_equal("hand2 wins",look_at_tie(hand1,hand2))
-	# end
+	def test_pair_tiebreaker_hand2_winner
+		hand1 = ["4s", "6d", "6c", "2h","7s"] # 25
+		hand2 = ["9s", "9h", "2c", "4d","8s"] # 32
+		assert_equal("hand2 wins",look_at_tie(hand1,hand2))
+	end
 
 	def test_evaluate_hands
 		hand2 = ["Td", "9s", "6c", "8s","7h"]
@@ -346,12 +339,18 @@ class Poker_Hand_test < Minitest::Test
     def test_hand_comparison_one_pair_tie
         hand1 = ["7h", "7d", "5h", "6h", "9h"]
         hand2 = ["7h", "7d", "3h", "2d", "9h"]
-        assert_equal("hand1 is the winner",look_at_tie(hand1,hand2))
+        assert_equal("Hand1 is the winner",look_at_tie(hand1,hand2))
     end
 
-    def test_deal_with_tie_one_pair_tie_kicker_card_tie
+    def test_look_at_tie_one_pair_tie_kicker_card_tie
         hand1 = ["7s", "7c", "4h", "6h", "9h"]
         hand2 = ["7h", "7d", "5h", "3d", "9h"]
+        assert_equal("Hand1 is the winner",look_at_tie(hand1,hand2))
+    end
+
+    def test_look_at_one_pair_kicker_card_hand1_winner
+        hand1 = ["7s", "7c", "4h", "6h", "9h"]
+        hand2 = ["7h", "7d", "5h", "3d", "8h"]
         assert_equal("hand1 is the winner",look_at_tie(hand1,hand2))
     end
 

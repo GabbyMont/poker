@@ -46,11 +46,11 @@ def look_at_tie(hand1,hand2)
 	hand1_faces = face_changer(face_value1)
   	matches1 = hand1_faces.sort
   	new_hand1 = matches1.group_by { |card| card }.select { |k, v| v.size.eql? 1 }.keys
-  	next_kicker1 = new_hand1.pop
-  	last_card1 = new_hand1.last
  	hand1_dupes = matches1.select{|item| matches1.count(item) > 1}.uniq
  	hand1_dupes_sum = hand1_dupes.sum
  	high_num1 = new_hand1.last
+ 	next_kicker1 = new_hand1.pop
+  	last_card1 = new_hand1.last
 
 	hand2.each do |card|
 		face_value2 << card[0]
@@ -58,23 +58,25 @@ def look_at_tie(hand1,hand2)
 	hand2_faces = face_changer(face_value2)
   	matches2 = hand2_faces.sort
   	new_hand2 = matches2.group_by { |card| card }.select { |k, v| v.size.eql? 1 }.keys
-  	next_kicker2 = new_hand2.pop
-  	last_card2 = new_hand2.last
   	hand2_dupes = matches2.select{|item| matches2.count(item) > 1}.uniq
  	hand2_dupes_sum = hand2_dupes.sum
  	high_num2 = new_hand2.last
+ 	next_kicker2 = new_hand2.pop
+  	last_card2 = new_hand2.last
 
 	if hand1_dupes_sum > hand2_dupes_sum 
 		result = "hand1 wins" 
-	elsif hand1_dupes_sum > hand2_dupes_sum
+	elsif hand1_dupes_sum < hand2_dupes_sum
 	 	 result = "hand2 wins"
 	else hand1_dupes_sum == hand2_dupes_sum
 		if high_num1 > high_num2
       		high_number_string = "hand1 is the winner"
     	elsif high_num1 < high_num2
       		high_number_string = "hand2 is the winner"
-      	else last_card1 >  last_card2
-      		kicker_card_message = "hand1 is the winner"
+      	elsif last_card1 >  last_card2
+      		kicker_card_message = "Hand1 is the winner"
+      	else last_card2 > last_card1
+      		kicker_card_message = "Hand2 is the winner"
       	end
     end
 end
@@ -132,7 +134,7 @@ def hand_comparison(hands)
 	elsif starter_hands["hand1"] < starter_hands["hand2"]
 		"Player Two is the winner"
 	# Else if cloned hand1 is equal to cloned hand2 then look at straight_tiebreaker
-	# else starter_hands["hand1"] == starter_hands["hand2"]
+	# elsif starter_hands["hand1"] == starter_hands["hand2"]
 	# 	straight_tiebreaker(hands['hand1'],hands['hand2'])
 	# end
 	else starter_hands["hand1"] == starter_hands["hand2"]
@@ -141,36 +143,36 @@ def hand_comparison(hands)
 end
 
 # tie breaker is splitting the hands and gathering sum then returning winning score(highest sum)
-# def straight_tiebreaker(hand1,hand2)
-#   	suit_value = []
-#   	face_value = []
-#   	array_sum1 = []
-#   	array_sum2 = []
-#   	result = ""
-#   hand1.each do |card|
-#     face_value << card[0]
-#     suit_value << card[1]
-#   end
-#     face_value = face_changer(face_value)
-#     face_value.sort!
-#     newarray1 = [*face_value[0]..face_value[0]+4]
-#     array_sum1 = newarray1.sum
+def straight_tiebreaker(hand1,hand2)
+  	suit_value = []
+  	face_value = []
+  	array_sum1 = []
+  	array_sum2 = []
+  	result = ""
+  hand1.each do |card|
+    face_value << card[0]
+    suit_value << card[1]
+  end
+    face_value = face_changer(face_value)
+    face_value.sort!
+    newarray1 = [*face_value[0]..face_value[0]+4]
+    array_sum1 = newarray1.sum
 
-#   hand2.each do |card|
-#     face_value << card[0]
-#     suit_value << card[1]
-#   end
-#     face_value = face_changer(face_value)
-#     face_value.sort!
-#     newarray2 = [*face_value[0]..face_value[0]+4]
-#     array_sum2 = newarray2.sum
-#     if array_sum1 > array_sum2
-#     	result = "hand1 wins"
-#     else 
-#     	result = "hand2 wins"
-#     end
-#    	result
-# end
+  hand2.each do |card|
+    face_value << card[0]
+    suit_value << card[1]
+  end
+    face_value = face_changer(face_value)
+    face_value.sort!
+    newarray2 = [*face_value[0]..face_value[0]+4]
+    array_sum2 = newarray2.sum
+    if array_sum1 > array_sum2
+    	result = "hand1 wins"
+    else 
+    	result = "hand2 wins"
+    end
+   	result
+end
 
 def royal_flush(hand)
 suit_value = []
@@ -199,7 +201,6 @@ face_value = []
 	# Makes array for consecutive numbers in a hand
 	newarray = [*face_value[0]..face_value[0]+4]
 	thearray = newarray.sum
-	# p "this is the new array of values #{thearray}"
 	# Removes duplicates and gives length of remaining card type
 	if suit_value.uniq.length == 1
 		# Evaluating hand and testing if true
