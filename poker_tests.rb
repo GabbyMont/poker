@@ -429,4 +429,40 @@ class Poker_Hand_test < Minitest::Test
         hands = {"hand1" => hand1, "hand2" => hand2}
         assert_equal("Player One is the winner",hand_comparison(hands))
     end
+
+    def test_last_index_kicker_card
+    	hand1 = ["2h", "4s", "5d", "7s", "7d"]
+        hand2 = ["8h", "4c", "5h", "7s", "7s"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Player Two is the winner",hand_comparison(hands))
+    end
+
+    def test_last_index_kicker_card_hand1_winner
+    	hand1 = ["8h", "4s", "5d", "7c", "7d"]
+        hand2 = ["2h", "4c", "5h", "7h", "7s"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("hand1 is the winner",hand_comparison(hands))
+    end
+
+    def test_last_index_kicker_card_look_at_tie
+    	hand1 = ["2h", "4s", "5d", "7s", "7d"]
+        hand2 = ["8h", "4c", "5h", "7s", "7s"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("hand2 is the winner",look_at_tie(hand1,hand2))
+    end
+
+    def test_last_index_kicker_card_look_at_tie_hand1_winner
+    	hand1 = ["8h", "4s", "5d", "7s", "7d"]
+        hand2 = ["2h", "4c", "5h", "7s", "7s"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("hand1 is the winner",look_at_tie(hand1,hand2))
+    end
+
+####
+    def test_high_card_hands_split_the_pot
+    	hand1 = ["2h", "4s", "5d", "7h", "Kd"]
+        hand2 = ["2s", "4c", "5h", "7c", "Ks"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
 end

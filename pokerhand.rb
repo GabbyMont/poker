@@ -75,8 +75,10 @@ def look_at_tie(hand1,hand2)
       		high_number_string = "hand2 is the winner"
       	elsif last_card1 >  last_card2
       		kicker_card_message = "Hand1 is the winner"
-      	else last_card2 > last_card1
+      	elsif last_card2 > last_card1
       		kicker_card_message = "Hand2 is the winner"
+      	else matches1 == matches2
+      		kicker_card_message = "Split the pot"
       	end
     end
 end
@@ -138,6 +140,8 @@ def hand_comparison(hands)
 		straight_tiebreaker(hands['hand1'],hands['hand2']) && look_at_tie(hands['hand1'],hands['hand2'])
 	end
 end
+
+
 
 # tie breaker is splitting the hands and gathering sum then returning winning score(highest sum)
 def straight_tiebreaker(hand1,hand2)
