@@ -447,22 +447,109 @@ class Poker_Hand_test < Minitest::Test
     def test_last_index_kicker_card_look_at_tie
     	hand1 = ["2h", "4s", "5d", "7s", "7d"]
         hand2 = ["8h", "4c", "5h", "7s", "7s"]
-        hands = {"hand1" => hand1, "hand2" => hand2}
         assert_equal("hand2 is the winner",look_at_tie(hand1,hand2))
     end
 
     def test_last_index_kicker_card_look_at_tie_hand1_winner
     	hand1 = ["8h", "4s", "5d", "7s", "7d"]
         hand2 = ["2h", "4c", "5h", "7s", "7s"]
-        hands = {"hand1" => hand1, "hand2" => hand2}
         assert_equal("hand1 is the winner",look_at_tie(hand1,hand2))
     end
 
-####
+    def test_high_card_hands_split_the_pot
+    	hand1 = ["2h", "4s", "5d", "7h", "Kd"]
+        hand2 = ["2s", "4c", "5h", "7c", "Ks"]
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
+    def test_one_pair_hands_split_the_pot
+    	hand1 = ["2h", "4s", "5d", "7h", "7d"]
+        hand2 = ["2s", "4c", "5h", "7c", "7s"]
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
     def test_high_card_hands_split_the_pot
     	hand1 = ["2h", "4s", "5d", "7h", "Kd"]
         hand2 = ["2s", "4c", "5h", "7c", "Ks"]
         hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",hand_comparison(hands))
+    end
+
+    def test_royal_flush_hands_split_the_pot_LAT
+    	hand1 = ["Th", "Jh", "Qh", "Kh", "Ah"]
+        hand2 = ["Td", "Jd", "Qd", "Kd", "Ad"]
         assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
+    def test_royal_flush_hands_split_the_pot_hand_comp
+    	hand1 = ["Th", "Jh", "Qh", "Kh", "Ah"]
+        hand2 = ["Td", "Jd", "Qd", "Kd", "Ad"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",hand_comparison(hands))
+    end
+
+    def test_straight_flush_hands_split_the_pot_LAT
+    	hand1 = ["3h", "4h", "5h", "6h", "7h"]
+        hand2 = ["3d", "4d", "5d", "6d", "7d"]
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
+    def test_straight_flush_hands_split_the_pot_hand_comp
+    	hand1 = ["3h", "4h", "5h", "6h", "7h"]
+        hand2 = ["3d", "4d", "5d", "6d", "7d"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",hand_comparison(hands))
+    end
+
+    def test_flush_hands_split_the_pot_LAT
+    	hand1 = ["3h", "6h", "Th", "5h", "7h"]
+        hand2 = ["3d", "6d", "Td", "5d", "7d"]
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
+    def test_flush_hands_split_the_pot_hand_comp
+    	hand1 = ["3h", "6h", "Th", "5h", "7h"]
+        hand2 = ["3d", "6d", "Td", "5d", "7d"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",hand_comparison(hands))
+    end
+
+    def test_straight_hands_split_the_pot_LAT
+    	hand1 = ["3h", "4s", "5c", "6h", "7h"]
+        hand2 = ["3d", "4h", "5d", "6c", "7s"]
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
+    def test_straight_hands_split_the_pot_hand_comp
+    	hand1 = ["3h", "4s", "5c", "6h", "7h"]
+        hand2 = ["3d", "4h", "5d", "6c", "7s"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",hand_comparison(hands))
+    end
+
+    def test_one_pair_hands_split_the_pot_LAT
+    	hand1 = ["4h", "Js", "Jc", "7h", "6d"]
+        hand2 = ["4d", "Jh", "Jd", "7c", "6s"]
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
+    def test_one_pair_split_the_pot_hand_comp
+    	hand1 = ["4h", "Js", "Jc", "7h", "6d"]
+        hand2 = ["4d", "Jh", "Jd", "7c", "6s"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",hand_comparison(hands))
+    end
+
+    def test_one_pair_hands_split_the_pot_LAT
+    	hand1 = ["4h", "5s", "2c", "7h", "Kd"]
+        hand2 = ["4d", "5h", "2d", "7c", "Ks"]
+        assert_equal("Split the pot",look_at_tie(hand1,hand2))
+    end
+
+    def test_one_pair_split_the_pot_hand_comp
+    	hand1 = ["4h", "5s", "2c", "7h", "Kd"]
+        hand2 = ["4d", "5h", "2d", "7c", "Ks"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+        assert_equal("Split the pot",hand_comparison(hands))
     end
 end

@@ -51,6 +51,8 @@ def look_at_tie(hand1,hand2)
  	high_num1 = new_hand1.last
  	next_kicker1 = new_hand1.pop
   	last_card1 = new_hand1.last
+ 	next_kicker1 = new_hand1.pop
+  	last_card1 = new_hand1[0]
 
 	hand2.each do |card|
 		face_value2 << card[0]
@@ -63,6 +65,8 @@ def look_at_tie(hand1,hand2)
  	high_num2 = new_hand2.last
  	next_kicker2 = new_hand2.pop
   	last_card2 = new_hand2.last
+ 	next_kicker2 = new_hand2.pop
+  	last_card2 = new_hand2[0]
 
 	if hand1_dupes_sum > hand2_dupes_sum 
 		result = "hand1 wins" 
@@ -214,17 +218,6 @@ def four_of_a_kind(hand)
 	true if face_value.uniq.length == 2
 end
 
-def three_of_a_kind(hand)
-	face_value = card_separator(hand)
-	true if face_value.uniq.length == 3
-
-end
-
-def pair(hand)
-	suit_value = card_separator(hand)
-	true if suit_value.uniq.length == 4
-end
-
 def full_house(hand)
 suit_value = []
 face_value = []
@@ -258,6 +251,12 @@ face_value = []
 	true if face_value == newarray
 end
 
+def three_of_a_kind(hand)
+	face_value = card_separator(hand)
+	true if face_value.uniq.length == 3
+
+end
+
 def two_pair(hand)
 suit_value = []
 face_value = []
@@ -265,15 +264,15 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
-	# face_value = face_changer(face_value)
-	# face_value.sort!
-	# face_value = card_separator(hand)
 	true if face_value.uniq.length == 3
+end
+
+def pair(hand)
+	suit_value = card_separator(hand)
+	true if suit_value.uniq.length == 4
 end
 
 def high_card(hand)
 	face_value = card_separator(hand)
-	# face_value = face_changer(face_value)
-	# face_value.sort!
 	true
 end
