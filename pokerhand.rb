@@ -134,11 +134,8 @@ def hand_comparison(hands)
 	elsif starter_hands["hand1"] < starter_hands["hand2"]
 		"Player Two is the winner"
 	# Else if cloned hand1 is equal to cloned hand2 then look at straight_tiebreaker
-	# elsif starter_hands["hand1"] = starter_hands["hand2"]
-	# 	straight_tiebreaker(hands['hand1'],hands['hand2'])
-	# end
-	else starter_hands["hand1"] = starter_hands["hand2"]
-		look_at_tie(hands['hand1'],hands['hand2'])
+	elsif starter_hands["hand1"] == starter_hands["hand2"]
+		straight_tiebreaker(hands['hand1'],hands['hand2']) && look_at_tie(hands['hand1'],hands['hand2'])
 	end
 end
 
@@ -198,7 +195,7 @@ face_value = []
 	end
 	face_value = face_changer(face_value)
 	face_value.sort!
-	# Makes array for consecutive numbers in a hand
+	# Creates array for consecutive numbers in a hand
 	newarray = [*face_value[0]..face_value[0]+4]
 	thearray = newarray.sum
 	# Removes duplicates and gives length of remaining card type
@@ -231,7 +228,6 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
-	# face_value = card_separator(hand)
 	true if face_value.uniq.length == 2
 end
 
@@ -242,7 +238,6 @@ face_value = []
 		face_value << card[0]
 		suit_value << card[1]
 	end
-	# suit_value = card_separator(hand)
 	true if suit_value.uniq.length == 1
 end
 

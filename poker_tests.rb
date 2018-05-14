@@ -232,8 +232,6 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal("hand2 wins",hand_comparison(hands))
 	end
 
-
-############################################## Flush tests not working
 	def test_flush_winner_hand_one_wins
 		hand1 = ["3s", "5s", "4s", "2s","7s"]
 		hand2 = ["2d", "4d", "3s", "6h","5d"]
@@ -241,14 +239,14 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal("Player One is the winner",hand_comparison(hands))
 	end
 
-	def test_flush_beats_straight_hand
+	def test_flush_beats_three_of_a_kind
 		hand1 = ["2d", "9d", "3d", "6d","8d"]
 		hand2 = ["Js", "Jd", "Jc", "2h","5s"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("Player One is the winner",hand_comparison(hands))
 	end
 
-	def test_flush_beats_three_of_a_kind
+	def test_flush_beats_straight_hand
 		hand1 = ["2h", "3h", "4h", "5h", "8h"]
 		hand2 = ["7h", "3d", "4d", "6s", "5s"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
@@ -264,7 +262,7 @@ class Poker_Hand_test < Minitest::Test
 
 	def test_flush_beats_one_pair
 		hand1 = ["9h", "3h", "6h", "5h", "8h"]
-		hand2 = ["Th", "3h", "3d", "2d", "5s"]
+		hand2 = ["Th", "Kh", "Kd", "2d", "5s"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("Player One is the winner",hand_comparison(hands))
 	end
@@ -272,12 +270,10 @@ class Poker_Hand_test < Minitest::Test
 
 	def test_flush_beats_single_high_card
 		hand1 = ["9h", "3h", "6h", "5h", "8h"]
-		hand2 = ["4h", "7h", "9d", "Jd", "Ks"]
+		hand2 = ["4h", "Ah", "9d", "Jd", "Ks"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("Player One is the winner",hand_comparison(hands))
 	end
-
-###########################################
 
 	def test_hand_comparison_using_royal_three_of_a_kind
 	    hand1 = ["2h", "Qd", "Qc", "Qs", "6h"]
