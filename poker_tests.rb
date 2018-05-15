@@ -552,4 +552,5 @@ class Poker_Hand_test < Minitest::Test
         hands = {"hand1" => hand1, "hand2" => hand2}
         assert_equal("Split the pot",hand_comparison(hands))
     end
+
 end
