@@ -78,10 +78,10 @@ class Poker_Hand_test < Minitest::Test
 	end
 
 	def test_pair_two_hands_same_matches
-		hand2 = ["Qs", "Qd", "5c", "2h","7s"]
-		hand1 = ["Js", "8d", "7c", "Qh","Qs"]
+		hand2 = ["Qs", "Qd", "5c", "2h","7s"] # 2,5,7,12,12
+		hand1 = ["Js", "8d", "7c", "Qh","Qs"] # 7,8,11,12,12
 	  	hands = {"hand1" => hand1,"hand2" => hand2}
-		assert_equal("hand1 is the winner",hand_comparison(hands))
+		assert_equal("hand1 card 3 wins",hand_comparison(hands))
 	end
 
 	def test_pair_two_hands_royal_faces_look_at_tie
@@ -192,9 +192,16 @@ class Poker_Hand_test < Minitest::Test
 
 	def test_straight_win
 		hand1 = ["Ts", "9s", "7s", "8s","6s"]
-		hand2 = ["As", "9s", "7s", "8s","6s"]
+		hand2 = ["Ad", "9d", "7d", "8d","6d"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
 		assert_equal("Player One is the winner",hand_comparison(hands))
+	end
+
+	def test_straight_win_hand2_winner
+		hand1 = ["2h", "3d", "4s", "5c","6d"] # 2,3,4,5,6
+		hand2 = ["Ts", "9c", "7d", "8c","6s"] # 6,7,8,9,10
+		hands = {"hand1" => hand1,"hand2" => hand2}
+		assert_equal("hand2 card 5 is the winner",hand_comparison(hands))
 	end
 
 	def test_str_win_not_four_win
@@ -307,14 +314,14 @@ class Poker_Hand_test < Minitest::Test
 		hand1 = ["2s", "9h", "4d", "3s","6c"]
 		hand2 = ["Js", "2d", "6c", "8h","Ts"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
-		assert_equal("hand2 is the winner",hand_comparison(hands))
+		assert_equal("hand2 card 5 is the winner",hand_comparison(hands))
 	end
 
 	def test_tiebreaker_in_handcomp
 		hand1 = ["9s", "5s", "7s", "8s","6s"]
 		hand2 = ["2d", "3d", "4d", "5d","6d"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
-		assert_equal("hand1 is the winner" ,hand_comparison(hands))
+		assert_equal("hand1 card 5 is the winner" ,hand_comparison(hands))
 	end
 
 	def test_pair_tiebreaker_hand1
@@ -337,11 +344,11 @@ class Poker_Hand_test < Minitest::Test
 		assert_equal("hand2 wins",look_at_tie(hand1,hand2))
 	end
 
-	def test_evaluate_hands
+	def test_high_card_hand2_T
 		hand2 = ["Td", "9s", "6c", "8s","7h"]
 		hand1 = ["2d", "3d", "4s", "5d","6d"]
 		hands = {"hand1" => hand1,"hand2" => hand2}
-		assert_equal("hand2 is the winner",hand_comparison(hands))
+		assert_equal("hand2 card 5 is the winner",hand_comparison(hands))
 	end
 
 	def test_fullhouse_tie
@@ -388,39 +395,39 @@ class Poker_Hand_test < Minitest::Test
         hand1 = ["3h", "4h", "5h", "6h", "7h"]
         hand2 = ["2d", "3d", "4d", "5d", "6d"]
         hands = {"hand1" => hand1, "hand2" => hand2}
-        assert_equal("hand1 is the winner",hand_comparison(hands))
+        assert_equal("hand1 card 5 is the winner",hand_comparison(hands))
     end
 
     def test_hand_comparison_straight_tie
         hand1 = ["7h", "6c", "5d", "4s", "3d"]
         hand2 = ["2h", "3c", "4h", "5s", "6d"]
         hands = {"hand1" => hand1, "hand2" => hand2}
-        assert_equal("hand1 is the winner",hand_comparison(hands))
+        assert_equal("hand1 card 5 is the winner",hand_comparison(hands))
     end
 
     def test_hand_comparison_flush_tie
-        hand1 = ["2d", "4d", "9d", "5d", "6d"]
-        hand2 = ["2h", "3h", "4h", "5h", "8h"]
+        hand1 = ["2d", "4d", "9d", "5d", "6d"] # 2,4,5,6,9
+        hand2 = ["2h", "3h", "4h", "5h", "8h"] # 2,3,4,5,8
         hands = {"hand1" => hand1, "hand2" => hand2}
-        assert_equal("hand1 is the winner",hand_comparison(hands))
+        assert_equal("hand1 card 5 is the winner",hand_comparison(hands))
     end
 
     def test_hand_comparison_one_pair_tie
         hand1 = ["7h", "7d", "5h", "6h", "9h"]
         hand2 = ["7h", "7d", "3h", "2d", "9h"]
-        assert_equal("Hand1 is the winner",look_at_tie(hand1,hand2))
+        assert_equal("hand1 card 4 wins",look_at_tie(hand1,hand2))
     end
 
     def test_look_at_tie_one_pair_tie_kicker_card_tie
         hand1 = ["7s", "7c", "4h", "6h", "9h"]
         hand2 = ["7h", "7d", "5h", "3d", "9h"]
-        assert_equal("Hand1 is the winner",look_at_tie(hand1,hand2))
+        assert_equal("hand1 card 4 wins",look_at_tie(hand1,hand2))
     end
 
     def test_look_at_one_pair_kicker_card_hand1_winner
         hand1 = ["7s", "7c", "4h", "6h", "9h"]
         hand2 = ["7h", "7d", "5h", "3d", "8h"]
-        assert_equal("hand1 is the winner",look_at_tie(hand1,hand2))
+        assert_equal("hand1 card 5 is the winner",look_at_tie(hand1,hand2))
     end
 
     def test_three_of_a_kind_beats_a_pair
@@ -441,19 +448,19 @@ class Poker_Hand_test < Minitest::Test
     	hand1 = ["8h", "4s", "5d", "7c", "7d"]
         hand2 = ["2h", "4c", "5h", "7h", "7s"]
         hands = {"hand1" => hand1, "hand2" => hand2}
-        assert_equal("hand1 is the winner",hand_comparison(hands))
+        assert_equal("hand1 card 5 is the winner",hand_comparison(hands))
     end
 
     def test_last_index_kicker_card_look_at_tie
     	hand1 = ["2h", "4s", "5d", "7s", "7d"]
         hand2 = ["8h", "4c", "5h", "7s", "7s"]
-        assert_equal("hand2 is the winner",look_at_tie(hand1,hand2))
+        assert_equal("hand2 card 5 is the winner",look_at_tie(hand1,hand2))
     end
 
     def test_last_index_kicker_card_look_at_tie_hand1_winner
     	hand1 = ["8h", "4s", "5d", "7s", "7d"]
         hand2 = ["2h", "4c", "5h", "7s", "7s"]
-        assert_equal("hand1 is the winner",look_at_tie(hand1,hand2))
+        assert_equal("hand1 card 5 is the winner",look_at_tie(hand1,hand2))
     end
 
     def test_high_card_hands_split_the_pot
@@ -553,4 +560,116 @@ class Poker_Hand_test < Minitest::Test
         assert_equal("Split the pot",hand_comparison(hands))
     end
 
+
+##### Testing returned randomized hands 
+    def test_random_hands_player_one_wins
+    	hand1 = ["5d", "Tc", "6s", "Jh", "Ad"] # High Card
+    	hand2 = ["7s", "Ah", "Th", "7d", "7c"] # Three of a kind
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player Two is the winner",hand_comparison(hands))
+    end
+
+    def test_random_hands_hand_one_wins
+    	hand1 = ["As", "Jh", "4d", "3h", "Qh"] # HIgh card
+    	hand2 = ["5d", "Tc", "Jc", "2s", "Ac"] # High Card
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("hand1 card 4 wins",hand_comparison(hands))
+    end
+
+    def test_random_hands_split_the_pot
+    	hand1 = ["2h", "3h", "6c","Ts","Ac"] 
+    	hand2 = ["2c", "4d", "7s","Ad","Ks"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("hand2 card 4 wins",hand_comparison(hands))
+    end
+
+    def test_random_hands_split_the_pot_tie
+    	hand1 = ["2h", "3h", "6c","Ts","Ac"] 
+    	hand2 = ["2c", "3d", "6s","Td","As"] 
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Split the pot",hand_comparison(hands))
+    end
+
+    def test_random_hands_split_the_pot_K
+    	hand1 = ["2h", "3h", "6c","Ts","Ac"]
+    	hand2 = ["2c", "3d", "6s","Td","Ks"] 
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("hand1 card 5 is the winner",hand_comparison(hands))
+    end
+
+    def test_random_hands_split_the_pot_hand2_winner
+    	hand1 = ["Jd", "9d", "2s", "5s", "Td"] # 2,5,9,10,11
+    	hand2 = ["3h", "Qd", "5h", "2d", "4h"] # 2,3,4,5,12
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal( "hand2 card 5 is the winner",hand_comparison(hands))
+    end
+
+    def test_random_hands_split_the_pot_player_one_winner
+    	hand1 = ["4s", "Th", "2h", "4h", "2d"] # Two Pair
+    	hand2 = ["3d", "5s", "4d", "Ks", "Ts"] # High Card
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player One is the winner",hand_comparison(hands))
+    end
+
+    def test_random_hands_split_the_pot_player_one_winner_pair
+    	hand1 = ["Ad", "3s", "Qs", "3h", "Ah"] # Pair
+    	hand2 = ["Js", "Ts", "5h", "Kh", "3c"] # High Card
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player One is the winner",hand_comparison(hands))
+    end
+
+    def test_player_one_winner_flush_rando
+    	hand1 = ["Td", "6d", "5d", "Qd", "Ad"]
+    	hand2 = ["8d", "4c", "4s", "9h", "5h"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player One is the winner",hand_comparison(hands))
+    end
+
+    def test_player_one_winner_straight_rando
+    	hand1 = ["Jh", "Qs", "Ts", "8s", "9c"]
+    	hand2 = ["Qh", "Jc", "9s", "7h", "6c"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player One is the winner",hand_comparison(hands))
+    end
+
+
+
+
+
+
+
+
+
+
+
+
+    def test_player_one_winner_straight_rando_2
+    	hand1 = ["7c", "Jd", "Td", "9h", "8h"]
+    	hand2 = ["9c", "6c", "2h", "8s", "8d"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player One is the winner",hand_comparison(hands))
+    end
+
+
+    def test_player_one_winner_two_pair_rando
+    	hand1 = ["As", "6s", "Qh", "Ad", "3h"]
+    	hand2 = ["Qs", "Ac", "9s", "6d", "Ah"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("hand2 card 4 wins",hand_comparison(hands))
+    end
+
+    def test_player_one_winner_straight_rando_3
+    	hand1 = ["Ks", "9d", "4c", "5h", "6d"]
+    	hand2 = ["5s", "6h", "7h", "4d", "8c"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player Two is the winner",hand_comparison(hands))
+    end
+
+
+    def test_player_one_winner_full_house_rando
+    	hand1 = ["7s", "2s", "As", "5d", "Ad"]
+    	hand2 = ["Ks", "Kh", "Kc", "Qh", "Qd"]
+        hands = {"hand1" => hand1, "hand2" => hand2}
+    	assert_equal("Player Two is the winner",hand_comparison(hands))
+    end
 end
