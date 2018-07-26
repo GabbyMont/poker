@@ -48,8 +48,6 @@ def look_at_tie(hand1,hand2)
 	face_value1 = []
 	# Empty face_value2 array created for hand2 faces
 	face_value2 = []
-	# Empty string for winning message in conditional 
-	result = ""
 
 	hand1.each do |card|
 		# Pushing the face of each card into the empty array and grabbing it by the first index. Ex: "Kd" => "K" ("[0][1]")
@@ -67,7 +65,6 @@ def look_at_tie(hand1,hand2)
  	# Adds duplicates together
  	hand1_dupes_sum = hand1_dupes.sum
  	next_kicker1 = new_hand1.pop
-
 	hand2.each do |card|
 		face_value2 << card[0]
 	end
@@ -81,13 +78,13 @@ def look_at_tie(hand1,hand2)
 
   	# If hand1's duplicate sum is greater than hand2's duplicate sum then return the "hand1 wins string"
 	if hand1_dupes_sum > hand2_dupes_sum 
-		result = "hand1 wins" 
+		"Player One(hand1) wins!" 
   	# If hand1's duplicate sum is less than hand2's duplicate sum then return the "hand2 wins string"
 	elsif hand1_dupes_sum < hand2_dupes_sum
-	 	 result = "hand2 wins"
+	 	 "Player Two(hand2) wins!"
   	# If hand1's duplicate sum is equal to hand2's duplicate sum then go to next conditional
 	else 
-    	result = split_the_pot(hand1,hand2)
+    	split_the_pot(hand1,hand2)
     end
 end
 
@@ -107,35 +104,33 @@ def split_the_pot(hand1,hand2)
 	hand2_faces = face_changer(face_value2)
 	sorted_faces2 = hand2_faces.sort
 
-
-
 	if sorted_faces1[4] > sorted_faces2[4]
-    	result = "hand1 card 5 is the winner"
+    	result = "Player One(hand1) wins!"
       	# If the remaining card in hand1 is less than the remaining card in hand2 then return "Hand2 is the winner"
     elsif sorted_faces1[4] < sorted_faces2[4]
-    	result = "hand2 card 5 is the winner"
+    	"Player Two(hand2) wins!"
     else sorted_faces1[4] == sorted_faces2[4]
     	if sorted_faces1[3] > sorted_faces2[3]
-    		result = "hand1 card 4 wins"
+    		"Player One(hand1) wins!"
     	elsif sorted_faces1[3] < sorted_faces2[3]
-    		result = "hand2 card 4 wins"
+    		"Player Two(hand2) wins!"
     	else sorted_faces1[3] == sorted_faces2[3]
     		if sorted_faces1[2] > sorted_faces2[2]
-    			result = "hand1 card 3 wins"
+    			"Player One(hand1) wins!"
     		elsif sorted_faces1[2] < sorted_faces2[2]
-    			result = "hand2 card 3 wins"
+    			"Player Two(hand2) wins!"
     		else sorted_faces1[2] == sorted_faces2[2]
           		if sorted_faces1[1] > sorted_faces2[1]
-    				result = "hand1 card 4 wins"
+    				"Player One(hand1) wins!"
     			elsif sorted_faces1[1] < sorted_faces2[1]
-    				result = "hand2 card 4 wins"
+    				"Player Two(hand2) wins!"
     			else sorted_faces1[1] == sorted_faces2[1]
     				if sorted_faces1[0] > sorted_faces2[0]
-    					result = "hand1 card 4 wins"
+    					"Player One(hand1) wins!"
     				elsif sorted_faces1[0] < sorted_faces2[0]
-    					result = "hand2 card 4 wins"
+    					"Player Two(hand2) wins!" 
     				else sorted_faces1[0] == sorted_faces2[0]
-    					result = "Split the pot"
+    					"Split the pot"
     				end
     			end
     		end
@@ -157,7 +152,6 @@ def face_changer(face_value)
 		elsif face == "T"
 			10
 		else
-			# Converts string of given number into integer
 			face.to_i
 		end
 	end
@@ -192,12 +186,12 @@ def hand_comparison(hands)
 
 	# If cloned hand1 is greater than cloned hand2 then print the string below
 	if starter_hands["hand1"] > starter_hands["hand2"]
-		"Player One is the winner"
+		"Player One(hand1) wins!"
 	# If cloned hand1 is less than cloned hand2 then print the string below
 	elsif starter_hands["hand1"] < starter_hands["hand2"]
-		"Player Two is the winner"
+		"Player Two(hand2) wins!"
 	# Else if cloned hand1 is equal to cloned hand2 then look at straight_tiebreaker
-	elsif starter_hands["hand1"] == starter_hands["hand2"]
+	else starter_hands["hand1"] == starter_hands["hand2"]
 		look_at_tie(hands['hand1'],hands['hand2'])
 	end
 end
@@ -210,10 +204,7 @@ face_value = []
 		suit_value << card[1]
 	end
 	# If statement checking length of the suit value after suits are separated from royal flush => should all be "d" for diamonds(uniq removes all duplicates making the length 1)
-	if suit_value.uniq.length == 1
-		# Then if face_value inlcudes the ["A", "K", "Q", "J", "T"] faces, the hand1 value will return true
-		true if face_value.include?("A") && face_value.include?("K") && face_value.include?("Q") && face_value.include?("J") && face_value.include?("T")
-	end
+	if suit_value.uniq.length == 1 then true if face_value.include?("A") && face_value.include?("K") && face_value.include?("Q") && face_value.include?("J") && face_value.include?("T") end
 end
 
 def straight_flush(hand)
@@ -229,14 +220,16 @@ face_value = []
 	newarray = [*face_value[0]..face_value[0]+4]
 	thearray = newarray.sum
 	# Removes duplicates and gives length of remaining card type
-	if suit_value.uniq.length == 1
-		# Evaluating hand and testing if true
-		true if face_value == newarray
-	end
+	if suit_value.uniq.length == 1 then true if face_value == newarray end
 end
 
 def four_of_a_kind(hand)
-	face_value = card_separator(hand)
+suit_value = []
+face_value = []
+	hand.each do |card|
+		face_value << card[0]
+		suit_value << card[1]
+	end
 	true if face_value.uniq.length == 2
 end
 
